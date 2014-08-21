@@ -1,0 +1,22 @@
+# Ansible playbook to install Docker with Shipyard and Friends.
+
+- hosts: docker
+  #gather_facts: yes
+
+  tasks:
+    - name: add Docker repository key
+      #apt_key: url="https://get.docker.io/gpg" id="A88D21E9"
+      apt_key: id="A88D21E9" keyserver=hkp://keyserver.ubuntu.com state=present
+
+    - name: add Docker repository
+      apt_repository:
+        repo: 'deb http://get.docker.io/ubuntu docker main'
+        update_cache: yes
+
+    - name: install Docker
+      apt: pkg=lxc-docker
+      notify: "start Docker"
+
+  handlers:
+    - name: start Docker
+      service: name=docker state=started
