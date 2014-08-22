@@ -1,0 +1,16 @@
+---
+- name: add Docker repository key
+  apt_key: url='https://get.docker.io/gpg' id='A88D21E9' state=present
+
+- name: add Docker repository
+  apt_repository:
+    repo: 'deb http://get.docker.io/ubuntu docker main'
+    update_cache: yes
+
+- name: install Docker
+  apt: pkg=lxc-docker
+  notify: "start Docker"
+
+- name: expose docker daemon on port 4243
+  lineinfile: dest=/etc/default/docker line="DOCKER_OPTS='-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"
+  notify: "restart Docker"

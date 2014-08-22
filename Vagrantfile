@@ -4,9 +4,10 @@
 # Override these values with a local config defined in vagrant.yaml
 CONF = {
     'box_name' => 'ubuntu/trusty64',
+    'box_url' => 'https://cloud-images.ubuntu.com/vagrant/trusty/20140820/trusty-server-cloudimg-amd64-vagrant-disk1.box',
     'allocate_memory' => 512,
     'num_cpus' => 2,
-    'ip_address' => '192.168.33.10',
+    'ip_address' => '192.168.33.80',
 }
 
 Vagrant.configure("2") do |config|
@@ -22,6 +23,9 @@ Vagrant.configure("2") do |config|
     config.ssh.forward_agent = true
 
     config.vm.network :private_network, :ip => CONF['ip_address']
+    config.vm.network :forwarded_port, guest: 4243, host: 4243
+
+    config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
     config.vm.provider :virtualbox do |vb, override|
         # Use VBoxManage to customize the VM. For example to change memory:
