@@ -12,5 +12,5 @@
   notify: "start Docker"
 
 - name: expose docker daemon on port 4243
-  lineinfile: dest=/etc/default/docker line="DOCKER_OPTS='-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"
+  lineinfile: dest=/etc/default/docker line="DOCKER_OPTS='-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock'"
   notify: "restart Docker"

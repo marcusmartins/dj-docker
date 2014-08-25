@@ -1,2 +1,6 @@
 - name: download fig
-  get_url: url=https://github.com/docker/fig/releases/download/0.5.2/linux dest=/usr/local/bin/fig mode=+x
+  get_url: url=https://github.com/docker/fig/releases/download/0.5.2/linux dest=/usr/local/bin/fig mode='0755'
+
+# necessary variable for fig to find the docker instance
+- name: add DOCKER_HOST to bash_profile
+  lineinfile: dest=/home/vagrant/.bash_profile regexp=^DOCKER_HOST= line="DOCKER_HOST=tcp://0.0.0.0:4243" create=yes
